@@ -31,6 +31,7 @@ export default function RefactorPage() {
     isLoading,
     stop,
     reload,
+    setMessages,
   } = useChat({
     id: "chat1",
     api: "/api/refactor",
@@ -55,10 +56,18 @@ export default function RefactorPage() {
     }
   }
 
+  function reset() {
+    setMessages([]);
+    setConsiderations([]);
+    setAdditionalInstructions("");
+    setLanguage("typescript react");
+    setResponseFormat("code-only");
+  }
+
   return (
     <div className="p-2 gap-4 flex flex-row min-h-screen">
       {apiKey ? null : <ApiKeyInputModal setApiKey={setApiKey} />}
-      <section className="w-[280px]">
+      <section className="w-[280px] space-y-2">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <H2>Programming&nbsp;language</H2>
@@ -136,6 +145,9 @@ export default function RefactorPage() {
             {isLoading ? "Refactoring..." : "Refactor"}
           </Button>
         </form>
+        <Button variant={"secondary"} className="w-full" onClick={reset}>
+          Reset
+        </Button>
       </section>
       <main className="w-full flex gap-4">
         <OriginalCodeInput
