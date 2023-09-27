@@ -2,7 +2,9 @@ import { Textarea } from "./ui/textarea";
 import { H2 } from "./typography/H2";
 
 import { type UseChatHelpers } from "ai/react";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
+import { cn } from "@/lib/utils";
+import { PauseOctagonIcon } from "lucide-react";
 
 type RefactoredCodeProps = Pick<
   UseChatHelpers,
@@ -22,9 +24,9 @@ export function RefactoredCode({
       <div className="flex items-center justify-between">
         <H2>Refactored code</H2>
         <div>
-          {isLoading ? <Button onClick={stop}>stop</Button> : null}
+          {isLoading ? <StopButton stop={stop} /> : null}
           {refactorMessage && !isLoading ? (
-            <Button onClick={() => reload()}>retry</Button>
+            <RetryButton reload={reload} />
           ) : null}
         </div>
       </div>
@@ -35,5 +37,39 @@ export function RefactoredCode({
         readOnly
       />
     </section>
+  );
+}
+
+type StopButtonProps = Pick<UseChatHelpers, "stop">;
+
+function StopButton(props: StopButtonProps) {
+  return (
+    <Button
+      className={cn(
+        "flex items-center gap-1.5",
+        buttonVariants({ variant: "destructive" })
+      )}
+      onClick={props.stop}
+    >
+      <PauseOctagonIcon height={16} width={16} />
+      <span>Stop</span>
+    </Button>
+  );
+}
+
+type RetryButtonProps = Pick<UseChatHelpers, "reload">;
+
+function RetryButton(props: RetryButtonProps) {
+  return (
+    <Button
+      className={cn(
+        "flex items-center gap-1.5",
+        buttonVariants({ variant: "secondary" })
+      )}
+      onClick={() => props.reload()}
+    >
+      <PauseOctagonIcon height={16} width={16} />
+      <span>Retry</span>
+    </Button>
   );
 }
