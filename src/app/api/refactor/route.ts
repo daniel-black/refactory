@@ -6,9 +6,9 @@ import { type Message } from "ai/react";
 
 export const runtime = "edge";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "",
-});
+// const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY || "",
+// });
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -18,6 +18,10 @@ export async function POST(req: Request) {
   console.log("\nconstructed messages: ");
   console.log(builtMessages);
   console.log();
+
+  const openai = new OpenAI({
+    apiKey: body.apiKey,
+  });
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
@@ -63,6 +67,7 @@ const messageSchema = z.object({
 });
 
 const refactorRequestBodySchema = z.object({
+  apiKey: z.string(),
   language: languagesZodEnum,
   responseFormat: responseFormatsZodEnum,
   considerations: z.array(z.string()),

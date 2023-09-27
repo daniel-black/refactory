@@ -12,12 +12,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { ApiKeyInputModal } from "@/components/ApiKeyInputModal";
 
 export default function RefactorPage() {
   const [language, setLanguage] = useState<Language>("typescript react");
   const [considerations, setConsiderations] = useState<string[]>([]);
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [responseFormat, setResponseFormat] = useState("code-only");
+
+  const [apiKey, setApiKey] = useLocalStorage("openai-api-key", "");
 
   const {
     input,
@@ -31,6 +35,7 @@ export default function RefactorPage() {
     id: "chat1",
     api: "/api/refactor",
     body: {
+      apiKey,
       language,
       considerations,
       additionalInstructions,
@@ -52,6 +57,7 @@ export default function RefactorPage() {
 
   return (
     <div className="p-2 gap-4 flex flex-row min-h-screen">
+      {apiKey ? null : <ApiKeyInputModal setApiKey={setApiKey} />}
       <section className="w-[280px]">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -125,7 +131,7 @@ export default function RefactorPage() {
             type="submit"
             size="lg"
             className="w-full select-none"
-            disabled={isLoading}
+            disabled={isLoading || apiKey === ""}
           >
             {isLoading ? "Refactoring..." : "Refactor"}
           </Button>
