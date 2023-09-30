@@ -17,7 +17,7 @@ export function CodeBlock({ languageIdentifier, text }: CodeBlockProps) {
       components={{
         code({ className, children }) {
           return (
-            <CodeSyntaxHighlighter className={className} children={children} />
+            <CodeSyntaxHighlighter className={className} code={children} />
           );
         },
       }}

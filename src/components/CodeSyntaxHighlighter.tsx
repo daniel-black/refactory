@@ -3,17 +3,17 @@ import { oneLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 type CodeSyntaxHighlighterProps = {
   className: string | undefined;
-  children: React.ReactNode;
+  code: React.ReactNode;
 };
 
 export function CodeSyntaxHighlighter({
   className,
-  children,
+  code,
 }: CodeSyntaxHighlighterProps) {
   const match = /language-(\w+)/.exec(className || "");
   return match ? (
     <SyntaxHighlighter
-      children={String(children).replace(/\n$/, "")}
+      children={String(code).replace(/\n$/, "")}
       language={match[1]}
       customStyle={{
         marginTop: 0,
@@ -28,6 +28,6 @@ export function CodeSyntaxHighlighter({
       style={oneLight}
     />
   ) : (
-    <code className={className}>{children}</code>
+    <code className={className}>{code}</code>
   );
 }
