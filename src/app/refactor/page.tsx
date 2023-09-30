@@ -1,9 +1,8 @@
 "use client";
 
-import { OriginalCodeInput } from "@/components/OriginalCodeInput";
 import { RefactoredCode } from "@/components/RefactoredCode";
 import { useChat } from "ai/react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 import { LanguageComboBox, type Language } from "@/components/LanguageComboBox";
 import { H2 } from "@/components/typography/H2";
@@ -14,6 +13,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { ApiKeyInputModal } from "@/components/ApiKeyInputModal";
+import { OriginalCodeInput } from "@/components/OriginalCodeInput";
+import { CodePanel } from "@/components/CodePanel";
 
 export default function RefactorPage() {
   const [language, setLanguage] = useState<Language>("typescript react");
@@ -65,10 +66,15 @@ export default function RefactorPage() {
   }
 
   return (
-    <div className="p-2 gap-4 flex flex-row min-h-screen">
+    <div className="gap-2 flex flex-row min-h-screen">
       {apiKey ? null : <ApiKeyInputModal setApiKey={setApiKey} />}
-      <section className="w-[280px] space-y-2">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <section className="w-[280px] space-y-2 p-2">
+        <form
+          onSubmit={(e: FormEvent<HTMLFormElement>) => {
+            handleSubmit(e);
+          }}
+          className="space-y-4"
+        >
           <div className="space-y-2">
             <H2>Programming&nbsp;language</H2>
             <LanguageComboBox
@@ -140,7 +146,7 @@ export default function RefactorPage() {
             type="submit"
             size="lg"
             className="w-full select-none"
-            disabled={isLoading || apiKey === ""}
+            disabled={isLoading}
           >
             {isLoading ? "Refactoring..." : "Refactor"}
           </Button>
@@ -149,17 +155,23 @@ export default function RefactorPage() {
           Reset
         </Button>
       </section>
-      <main className="w-full flex gap-4">
-        <OriginalCodeInput
-          input={input}
-          handleInputChange={handleInputChange}
-        />
-        <RefactoredCode
-          isLoading={isLoading}
-          messages={messages}
-          stop={stop}
-          reload={reload}
-        />
+      <main className="w-full flex gap-2">
+        <CodePanel>
+          <H2>Original Code</H2>
+          <OriginalCodeInput
+            input={messages.length > 0 ? messages[0].content : input}
+            handleInputChange={handleInputChange}
+          />
+        </CodePanel>
+        <CodePanel>
+          <H2>Refactored Code</H2>
+          <RefactoredCode
+            isLoading={isLoading}
+            messages={messages}
+            stop={stop}
+            reload={reload}
+          />
+        </CodePanel>
       </main>
     </div>
   );

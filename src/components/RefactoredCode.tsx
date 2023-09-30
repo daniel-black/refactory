@@ -1,10 +1,10 @@
-import { Textarea } from "./ui/textarea";
 import { H2 } from "./typography/H2";
-
-import { type UseChatHelpers } from "ai/react";
 import { Button, buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { PauseOctagonIcon } from "lucide-react";
+import { CodeBlock } from "./CodeBlock";
+
+import { type UseChatHelpers } from "ai/react";
 
 type RefactoredCodeProps = Pick<
   UseChatHelpers,
@@ -20,21 +20,14 @@ export function RefactoredCode({
   const refactorMessage = messages.find((m) => m.role === "assistant");
 
   return (
-    <section className="flex-1 flex flex-col space-y-2">
-      <div className="flex items-center justify-between">
-        <H2>Refactored code</H2>
-        <div>
-          {isLoading ? <StopButton stop={stop} /> : null}
-          {refactorMessage && !isLoading ? (
-            <RetryButton reload={reload} />
-          ) : null}
-        </div>
-      </div>
-      <Textarea
-        value={refactorMessage ? refactorMessage.content : ""}
-        placeholder="Refactored code will be displayed here..."
-        className="h-full resize-none font-mono"
-        readOnly
+    <section className="flex-1 border rounded-md bg-[rgb(250,250,250)]">
+      <CodeBlock
+        languageIdentifier="javascript"
+        text={
+          refactorMessage
+            ? refactorMessage.content
+            : "// Refactored code will be displayed here..."
+        }
       />
     </section>
   );
