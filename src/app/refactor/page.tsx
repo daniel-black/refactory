@@ -20,6 +20,29 @@ import {
   getLanguageNameFromIdentifier,
 } from "@/utils/languages";
 
+const considerationsList = [
+  "readable", // Readability often directly translates to maintainability.
+  "maintainable", // Maintainable code can easily be expanded, updated or debugged.
+  "efficient", // Efficiency ensures that the code runs with minimal wasted resources.
+  "testable", // Testable code is crucial for identifying and fixing bugs early.
+  "modular", // Modularity simplifies understanding and development of the code.
+  "secure", // Security is vital for protecting data and system integrity.
+  "robust", // Robust code can handle unexpected inputs or situations without breaking.
+  "reusable", // Reusability reduces duplication and increases code clarity.
+  "documented", // Documentation helps developers understand the purpose and function of code.
+  "concise", // Conciseness makes the code easier to read and understand.
+  "extendable", // Extensibility makes it easy to add new features or capabilities.
+  "functional", // Functional programming can lead to less bugs and more predictable code.
+  "optimized", // Optimization ensures that the code performs its best for its intended use case.
+  "idiomatic", // Following language idioms helps others understand your code.
+  "configurable", // Configurability allows easy adjustment to different situations.
+  "accessible", // Accessibility ensures the software can be used by as many people as possible.
+  "decoupled", // Decoupling makes each part of the code more independent and easier to manage.
+  "abstracted", // Abstraction hides complexity and makes the code easier to reason about.
+  "immutable", // Immutability can help make the code safer and easier to reason about.
+  "parallelizable", // Parallelizability could be useful for performance but is not always needed.
+];
+
 export default function RefactorPage() {
   const [language, setLanguage] = useState<LanguageIdentifier>("javascript");
   const [considerations, setConsiderations] = useState<string[]>([]);
@@ -29,6 +52,7 @@ export default function RefactorPage() {
 
   const {
     input,
+    setInput,
     handleInputChange,
     handleSubmit,
     messages,
@@ -37,7 +61,6 @@ export default function RefactorPage() {
     reload,
     setMessages,
   } = useChat({
-    id: "chat1",
     api: "/api/refactor",
     body: {
       apiKey,
@@ -47,6 +70,9 @@ export default function RefactorPage() {
       language: getLanguageNameFromIdentifier(language),
     },
   });
+
+  console.log(messages);
+  console.log(input);
 
   function onBadgeClick(consideration: string) {
     if (considerations.includes(consideration)) {
@@ -61,6 +87,7 @@ export default function RefactorPage() {
   }
 
   function reset() {
+    setInput("");
     setMessages([]);
     setConsiderations([]);
     setAdditionalInstructions("");
@@ -88,37 +115,13 @@ export default function RefactorPage() {
           <div className="space-y-2">
             <H2>Considerations</H2>
             <div className="flex flex-wrap gap-1">
-              <SelectableBadge
-                label="readable"
-                selected={considerations.includes("readable")}
-                onClick={onBadgeClick}
-              />
-              <SelectableBadge
-                label="performant"
-                selected={considerations.includes("performant")}
-                onClick={onBadgeClick}
-              />
-              <SelectableBadge
-                label="concise"
-                selected={considerations.includes("concise")}
-                onClick={onBadgeClick}
-              />
-
-              <SelectableBadge
-                label="functional"
-                selected={considerations.includes("functional")}
-                onClick={onBadgeClick}
-              />
-              <SelectableBadge
-                label="modular"
-                selected={considerations.includes("modular")}
-                onClick={onBadgeClick}
-              />
-              <SelectableBadge
-                label="use arrow functions"
-                selected={considerations.includes("use arrow functions")}
-                onClick={onBadgeClick}
-              />
+              {considerationsList.map((consideration) => (
+                <SelectableBadge
+                  label={consideration}
+                  selected={considerations.includes(consideration)}
+                  onClick={onBadgeClick}
+                />
+              ))}
             </div>
           </div>
           <div className="space-y-2">

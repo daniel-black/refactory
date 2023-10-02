@@ -10,9 +10,6 @@ export async function POST(req: Request) {
   const parsedBody = refactorRequestBodySchema.parse(body);
 
   const builtMessages = buildMessages(parsedBody);
-  // console.log("\nconstructed messages: ");
-  // console.log(builtMessages);
-  // console.log();
 
   const openai = new OpenAI({
     apiKey: body.apiKey,

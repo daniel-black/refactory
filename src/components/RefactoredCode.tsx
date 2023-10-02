@@ -27,7 +27,6 @@ export function RefactoredCode({
   let text = "// Refactored code will be displayed here...";
 
   if (refactorMessage) {
-    console.log(refactorMessage.content);
     const { content } = refactorMessage;
 
     languageIdentifier = getLanguageIdentifierFromMarkdown(content);
