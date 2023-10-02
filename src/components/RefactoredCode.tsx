@@ -5,6 +5,10 @@ import { PauseOctagonIcon } from "lucide-react";
 import { CodeBlock } from "./CodeBlock";
 
 import { type UseChatHelpers } from "ai/react";
+import {
+  getCodeFromMarkdown,
+  getLanguageIdentifierFromMarkdown,
+} from "@/utils/languages";
 
 type RefactoredCodeProps = Pick<
   UseChatHelpers,
@@ -19,16 +23,20 @@ export function RefactoredCode({
 }: RefactoredCodeProps) {
   const refactorMessage = messages.find((m) => m.role === "assistant");
 
+  let languageIdentifier = "javascript";
+  let text = "// Refactored code will be displayed here...";
+
+  if (refactorMessage) {
+    console.log(refactorMessage.content);
+    const { content } = refactorMessage;
+
+    languageIdentifier = getLanguageIdentifierFromMarkdown(content);
+    text = getCodeFromMarkdown(content);
+  }
+
   return (
     <section className="flex-1 border rounded-md bg-[rgb(250,250,250)]">
-      <CodeBlock
-        languageIdentifier="javascript"
-        text={
-          refactorMessage
-            ? refactorMessage.content
-            : "// Refactored code will be displayed here..."
-        }
-      />
+      <CodeBlock languageIdentifier={languageIdentifier} text={text} />
     </section>
   );
 }

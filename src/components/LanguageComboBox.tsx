@@ -12,17 +12,11 @@ import {
   CommandItem,
 } from "./ui/command";
 import { cn } from "@/lib/utils";
-
-export const languages = [
-  { name: "JavaScript", identifier: "javascript" },
-  { name: "React", identifier: "jsx" },
-  { name: "TypeScript", identifier: "typescript" },
-  { name: "TypeScript React", identifier: "tsx" },
-  { name: "Other", identifier: "other" },
-] as const;
-
-type LanguageName = (typeof languages)[number]["name"];
-export type LanguageIdentifier = (typeof languages)[number]["identifier"];
+import {
+  languages,
+  getLanguageNameFromIdentifier,
+  type LanguageIdentifier,
+} from "@/utils/languages";
 
 type LanguageComboBoxProps = {
   selectedLanguage: LanguageIdentifier;
@@ -35,9 +29,6 @@ export function LanguageComboBox({
 }: LanguageComboBoxProps) {
   const [open, setOpen] = useState(false);
   const languageDisplayName = getLanguageNameFromIdentifier(selectedLanguage);
-
-  // console.log("\n   selectedLanguage: ", selectedLanguage);
-  // console.log("languageDisplayName: ", languageDisplayName);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -81,17 +72,4 @@ export function LanguageComboBox({
       </PopoverContent>
     </Popover>
   );
-}
-
-export function getLanguageNameFromIdentifier(
-  languageIdentifier: LanguageIdentifier
-) {
-  return languages.find(
-    (language) => language.identifier === languageIdentifier
-  )?.name;
-}
-
-export function getLanguageIdentifierFromName(languageName: LanguageName) {
-  return languages.find((language) => language.name === languageName)
-    ?.identifier;
 }

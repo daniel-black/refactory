@@ -4,11 +4,7 @@ import { RefactoredCode } from "@/components/RefactoredCode";
 import { useChat } from "ai/react";
 import { FormEvent, useState } from "react";
 
-import {
-  LanguageComboBox,
-  getLanguageNameFromIdentifier,
-  type LanguageIdentifier,
-} from "@/components/LanguageComboBox";
+import { LanguageComboBox } from "@/components/LanguageComboBox";
 import { H2 } from "@/components/typography/H2";
 import { SelectableBadge } from "@/components/SelectableBadge";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,6 +15,10 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import { ApiKeyInputModal } from "@/components/ApiKeyInputModal";
 import { OriginalCodeInput } from "@/components/OriginalCodeInput";
 import { CodePanel } from "@/components/CodePanel";
+import {
+  type LanguageIdentifier,
+  getLanguageNameFromIdentifier,
+} from "@/utils/languages";
 
 export default function RefactorPage() {
   const [language, setLanguage] = useState<LanguageIdentifier>("javascript");
