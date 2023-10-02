@@ -63,7 +63,7 @@ export default function RefactorPage() {
     setMessages([]);
     setConsiderations([]);
     setAdditionalInstructions("");
-    setLanguage("typescript react");
+    setLanguage("javascript");
     setResponseFormat("code-only");
   }
 
