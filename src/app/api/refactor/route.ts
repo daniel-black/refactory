@@ -1,23 +1,20 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
+import { getLanguageIdentifierFromName } from "@/components/LanguageComboBox";
 import { z } from "zod";
 
 import { type Message } from "ai/react";
 
 export const runtime = "edge";
 
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY || "",
-// });
-
 export async function POST(req: Request) {
   const body = await req.json();
   const parsedBody = refactorRequestBodySchema.parse(body);
 
   const builtMessages = buildMessages(parsedBody);
-  console.log("\nconstructed messages: ");
-  console.log(builtMessages);
-  console.log();
+  // console.log("\nconstructed messages: ");
+  // console.log(builtMessages);
+  // console.log();
 
   const openai = new OpenAI({
     apiKey: body.apiKey,
@@ -42,12 +39,13 @@ const responseFormats = ["code-only", "code-with-comments"] as const;
 const responseFormatsZodEnum = z.enum(responseFormats);
 type ResponseFormat = z.infer<typeof responseFormatsZodEnum>;
 
+// Not fun that we're maintaining this in two places but it's fine for now
 const languages = [
-  "javascript",
-  "react",
-  "typescript",
-  "typescript react",
-  "other",
+  "JavaScript",
+  "React",
+  "TypeScript",
+  "TypeScript React",
+  "Other",
 ] as const;
 const languagesZodEnum = z.enum(languages);
 type Language = z.infer<typeof languagesZodEnum>;
@@ -94,17 +92,19 @@ function buildMessages(body: RefactorRequestBody) {
 type MessageWithoutId = Pick<Message, "role" | "content">;
 
 function buildSystemMessage(language: Language): MessageWithoutId {
-  const generic = language === "other";
+  const generic = language === "Other";
   return {
     role: "system",
     content: `You are an expert ${
       generic ? "all-around" : language
     } programmer. Please refactor the snippet of ${
       generic ? "" : language
-    } code that I have provided in the next message. Your reply should ALWAYS ONLY contain the refactored code within a markdown fenced code block with the language specified like:
-    \`\`\`javascript
-    alert("hi");
-    \`\`\``,
+    } code that I have provided in the next message. Your reply should ALWAYS be formatted like the example below. If the user requests that your reply contain code with comments, document the code in the "code" section with comments:
+    languageIdentifier: jsx
+    code:
+    function Button() {
+      return (<button>click me</button>);
+    }`,
   };
 }
 
@@ -126,16 +126,13 @@ function buildUserMessage(
         ? " so that it is " + listFormatter.format(considerations)
         : ""
     }.
-    \`\`\`${language}
+    \`\`\`${getLanguageIdentifierFromName(language)}
     ${code}
     \`\`\`
 
     Additionally, ${additionalInstructions}
 
-    In your markdown fenced code block reply, please include ${responseFormat.replace(
-      "-",
-      " "
-    )}.
+    In your reply, please include ${responseFormat.replace("-", " ")}.
     `,
   };
 }

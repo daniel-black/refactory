@@ -13,7 +13,7 @@ import {
 } from "./ui/command";
 import { cn } from "@/lib/utils";
 
-const languages = [
+export const languages = [
   { name: "JavaScript", identifier: "javascript" },
   { name: "React", identifier: "jsx" },
   { name: "TypeScript", identifier: "typescript" },
@@ -21,6 +21,7 @@ const languages = [
   { name: "Other", identifier: "other" },
 ] as const;
 
+type LanguageName = (typeof languages)[number]["name"];
 export type LanguageIdentifier = (typeof languages)[number]["identifier"];
 
 type LanguageComboBoxProps = {
@@ -83,8 +84,14 @@ export function LanguageComboBox({
 }
 
 export function getLanguageNameFromIdentifier(
-  languageValue: LanguageIdentifier
+  languageIdentifier: LanguageIdentifier
 ) {
-  return languages.find((language) => language.identifier === languageValue)
-    ?.name;
+  return languages.find(
+    (language) => language.identifier === languageIdentifier
+  )?.name;
+}
+
+export function getLanguageIdentifierFromName(languageName: LanguageName) {
+  return languages.find((language) => language.name === languageName)
+    ?.identifier;
 }

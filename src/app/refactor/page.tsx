@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 
 import {
   LanguageComboBox,
+  getLanguageNameFromIdentifier,
   type LanguageIdentifier,
 } from "@/components/LanguageComboBox";
 import { H2 } from "@/components/typography/H2";
@@ -20,7 +21,7 @@ import { OriginalCodeInput } from "@/components/OriginalCodeInput";
 import { CodePanel } from "@/components/CodePanel";
 
 export default function RefactorPage() {
-  const [language, setLanguage] = useState<LanguageIdentifier>("jsx");
+  const [language, setLanguage] = useState<LanguageIdentifier>("javascript");
   const [considerations, setConsiderations] = useState<string[]>([]);
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [responseFormat, setResponseFormat] = useState("code-only");
@@ -40,10 +41,10 @@ export default function RefactorPage() {
     api: "/api/refactor",
     body: {
       apiKey,
-      language,
       considerations,
-      additionalInstructions,
       responseFormat,
+      additionalInstructions,
+      language: getLanguageNameFromIdentifier(language),
     },
   });
 
