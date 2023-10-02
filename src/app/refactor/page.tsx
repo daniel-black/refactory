@@ -4,7 +4,10 @@ import { RefactoredCode } from "@/components/RefactoredCode";
 import { useChat } from "ai/react";
 import { FormEvent, useState } from "react";
 
-import { LanguageComboBox, type Language } from "@/components/LanguageComboBox";
+import {
+  LanguageComboBox,
+  type LanguageIdentifier,
+} from "@/components/LanguageComboBox";
 import { H2 } from "@/components/typography/H2";
 import { SelectableBadge } from "@/components/SelectableBadge";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,11 +20,10 @@ import { OriginalCodeInput } from "@/components/OriginalCodeInput";
 import { CodePanel } from "@/components/CodePanel";
 
 export default function RefactorPage() {
-  const [language, setLanguage] = useState<Language>("typescript react");
+  const [language, setLanguage] = useState<LanguageIdentifier>("jsx");
   const [considerations, setConsiderations] = useState<string[]>([]);
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [responseFormat, setResponseFormat] = useState("code-only");
-
   const [apiKey, setApiKey] = useLocalStorage("openai-api-key", "");
 
   const {

@@ -14,18 +14,18 @@ import {
 import { cn } from "@/lib/utils";
 
 const languages = [
-  { label: "JavaScript", value: "javascript" },
-  { label: "React", value: "react" },
-  { label: "TypeScript", value: "typescript" },
-  { label: "TypeScript React", value: "typescript react" },
-  { label: "Other", value: "other" },
+  { name: "JavaScript", identifier: "javascript" },
+  { name: "React", identifier: "jsx" },
+  { name: "TypeScript", identifier: "typescript" },
+  { name: "TypeScript React", identifier: "tsx" },
+  { name: "Other", identifier: "other" },
 ] as const;
 
-export type Language = (typeof languages)[number]["value"];
+export type LanguageIdentifier = (typeof languages)[number]["identifier"];
 
 type LanguageComboBoxProps = {
-  selectedLanguage: Language;
-  setSelectedLanguage: (language: Language) => void;
+  selectedLanguage: LanguageIdentifier;
+  setSelectedLanguage: (language: LanguageIdentifier) => void;
 };
 
 export function LanguageComboBox({
@@ -33,6 +33,10 @@ export function LanguageComboBox({
   setSelectedLanguage,
 }: LanguageComboBoxProps) {
   const [open, setOpen] = useState(false);
+  const languageDisplayName = getLanguageNameFromIdentifier(selectedLanguage);
+
+  // console.log("\n   selectedLanguage: ", selectedLanguage);
+  // console.log("languageDisplayName: ", languageDisplayName);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -43,10 +47,7 @@ export function LanguageComboBox({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {selectedLanguage
-            ? languages.find((language) => language.value === selectedLanguage)
-                ?.label
-            : "Select language..."}
+          {getLanguageNameFromIdentifier(selectedLanguage)}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -55,28 +56,23 @@ export function LanguageComboBox({
           <CommandInput placeholder="Search languages..." />
           <CommandEmpty>No languages found.</CommandEmpty>
           <CommandGroup>
-            {languages.map((language) => (
+            {languages.map(({ identifier, name }) => (
               <CommandItem
-                key={language.value}
-                onSelect={(currentLanguageString) => {
-                  const currentLanguage = currentLanguageString as Language;
-                  setSelectedLanguage(
-                    currentLanguage === selectedLanguage
-                      ? "other"
-                      : currentLanguage
-                  );
+                key={identifier}
+                onSelect={() => {
+                  setSelectedLanguage(identifier);
                   setOpen(false);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    selectedLanguage === language.value
+                    selectedLanguage === identifier
                       ? "opacity-100"
                       : "opacity-0"
                   )}
                 />
-                {language.label}
+                {name}
               </CommandItem>
             ))}
           </CommandGroup>
@@ -84,4 +80,11 @@ export function LanguageComboBox({
       </PopoverContent>
     </Popover>
   );
+}
+
+export function getLanguageNameFromIdentifier(
+  languageValue: LanguageIdentifier
+) {
+  return languages.find((language) => language.identifier === languageValue)
+    ?.name;
 }

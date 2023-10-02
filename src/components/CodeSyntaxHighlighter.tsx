@@ -23,7 +23,6 @@ export function CodeSyntaxHighlighter({
         paddingLeft: "0.75rem",
         paddingRight: "0.75rem",
         fontSize: "0.875rem",
-        lineHeight: "1.25rem",
       }}
       style={oneLight}
     />
