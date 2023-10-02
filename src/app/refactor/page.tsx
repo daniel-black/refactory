@@ -117,6 +117,7 @@ export default function RefactorPage() {
             <div className="flex flex-wrap gap-1">
               {considerationsList.map((consideration) => (
                 <SelectableBadge
+                  key={consideration}
                   label={consideration}
                   selected={considerations.includes(consideration)}
                   onClick={onBadgeClick}
