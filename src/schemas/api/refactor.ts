@@ -29,6 +29,9 @@ const languages = [
 ] as const;
 const languagesZodEnum = z.enum(languages);
 
+const models = ["gpt-3.5-turbo", "gpt-4"] as const;
+const modelsZodEnum = z.enum(models);
+
 const messageSchema = z.object({
   id: z.string().optional(),
   createdAt: z.date().optional(),
@@ -45,6 +48,7 @@ const messageSchema = z.object({
 
 export const refactorRequestBodySchema = z.object({
   apiKey: z.string(),
+  model: modelsZodEnum,
   language: languagesZodEnum,
   responseFormat: responseFormatsZodEnum,
   considerations: z.array(z.string()),

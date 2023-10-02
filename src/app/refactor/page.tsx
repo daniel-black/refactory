@@ -19,6 +19,7 @@ import {
   type LanguageIdentifier,
   getLanguageNameFromIdentifier,
 } from "@/utils/languages";
+import { type Model, ModelSelect } from "@/components/ModelSelect";
 
 const considerationsList = [
   "readable", // Readability often directly translates to maintainability.
@@ -49,6 +50,9 @@ export default function RefactorPage() {
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [responseFormat, setResponseFormat] = useState("code-only");
   const [apiKey, setApiKey] = useLocalStorage("openai-api-key", "");
+  const [model] = useLocalStorage<Model>("model", "gpt-3.5-turbo");
+
+  // console.log({ model });
 
   const {
     input,
@@ -63,6 +67,7 @@ export default function RefactorPage() {
   } = useChat({
     api: "/api/refactor",
     body: {
+      model,
       apiKey,
       considerations,
       responseFormat,
@@ -70,9 +75,6 @@ export default function RefactorPage() {
       language: getLanguageNameFromIdentifier(language),
     },
   });
-
-  console.log(messages);
-  console.log(input);
 
   function onBadgeClick(consideration: string) {
     if (considerations.includes(consideration)) {
@@ -161,6 +163,7 @@ export default function RefactorPage() {
         <Button variant={"secondary"} className="w-full" onClick={reset}>
           Reset
         </Button>
+        <ModelSelect />
       </section>
       <main className="w-full flex gap-2">
         <CodePanel>

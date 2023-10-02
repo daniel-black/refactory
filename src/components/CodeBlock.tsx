@@ -13,7 +13,9 @@ export function CodeBlock({ languageIdentifier, text }: CodeBlockProps) {
   return (
     <ReactMarkdown
       children={markdown}
-      className={"flex-1 text-sm rounded-md absolute bg-[rgb(250,250,250)]"}
+      className={
+        "flex-1 text-sm rounded-md absolute bg-[rgb(250,250,250)] whitespace-pre leading-normal break-normal hyphens-none"
+      }
       components={{
         code({ className, children }) {
           return (
