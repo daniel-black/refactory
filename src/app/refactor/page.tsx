@@ -1,8 +1,8 @@
 "use client";
 
-import { RefactoredCode } from "@/components/RefactoredCode";
 import { useChat } from "ai/react";
 import { FormEvent, useState } from "react";
+import Editor from "@monaco-editor/react";
 
 import { LanguageComboBox } from "@/components/LanguageComboBox";
 import { H2 } from "@/components/typography/H2";
@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { ApiKeyInputModal } from "@/components/ApiKeyInputModal";
-import { OriginalCodeInput } from "@/components/OriginalCodeInput";
 import { CodePanel } from "@/components/CodePanel";
 import {
   type LanguageIdentifier,
@@ -51,8 +50,6 @@ export default function RefactorPage() {
   const [responseFormat, setResponseFormat] = useState("code-only");
   const [apiKey, setApiKey] = useLocalStorage("openai-api-key", "");
   const [model] = useLocalStorage<Model>("model", "gpt-3.5-turbo");
-
-  // console.log({ model });
 
   const {
     input,
@@ -168,18 +165,41 @@ export default function RefactorPage() {
       <main className="w-full flex gap-2">
         <CodePanel>
           <H2>Original Code</H2>
-          <OriginalCodeInput
-            input={messages.length > 0 ? messages[0].content : input}
-            handleInputChange={handleInputChange}
+          <Editor
+            language={language}
+            onChange={(v, event) => {
+              if (v) {
+                setInput(v);
+              }
+            }}
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              tabSize: 2,
+              lineNumbersMinChars: 3,
+              scrollBeyondLastLine: false,
+            }}
           />
         </CodePanel>
         <CodePanel>
           <H2>Refactored Code</H2>
-          <RefactoredCode
-            isLoading={isLoading}
-            messages={messages}
-            stop={stop}
-            reload={reload}
+          <Editor
+            language={language}
+            className="border-l"
+            value={
+              messages.find((m) => m.role === "assistant")?.content ??
+              "// nothing yet"
+            }
+            options={{
+              readOnly: true,
+              minimap: {
+                enabled: false,
+              },
+              tabSize: 2,
+              lineNumbersMinChars: 3,
+              scrollBeyondLastLine: false,
+            }}
           />
         </CodePanel>
       </main>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.5.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
@@ -20,12 +21,11 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "lucide-react": "^0.279.0",
+    "monaco-editor": "^0.43.0",
     "next": "latest",
     "openai": "^4.10.0",
     "react": "latest",
     "react-dom": "latest",
-    "react-markdown": "^9.0.0",
-    "react-syntax-highlighter": "^15.5.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.2"
@@ -34,7 +34,6 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@types/react-syntax-highlighter": "^15.5.7",
     "autoprefixer": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",

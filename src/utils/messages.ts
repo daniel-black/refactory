@@ -54,19 +54,17 @@ function buildUserMessage(
     
     In your reply, please include ${responseFormat.replace("-", " ")}.
 
-    Your reply should ALWAYS be formatted as a fenced markdown code block EXACTLY like the example below. If you need to include an explanation of the refactored code, put it inside of the fenced markdown code block before the refactored code as a multiline comment. Be extremely concise and to the point in your explanation of the refactored code if you include one. DO NOT include an explanation of the original code.
+    Your reply should ALWAYS be formatted EXACTLY like the example below. If you need to include an explanation of the refactored code, put it inside of a multiline code comment after the refactored code. Be extremely concise and to the point in your explanation of the refactored code if you include one. DO NOT include an explanation of the original code.
     
     Example reply:
-    \`\`\`${getLanguageIdentifierFromName(language)}
+    {your refactored code goes here}
+
     /*
     Explanation:
     - explanation 1
     - explanation 2
     */
-
-    // Refactored code:
-    {your refactored code goes here}
-    \`\`\``,
+    `,
   };
 }
 
