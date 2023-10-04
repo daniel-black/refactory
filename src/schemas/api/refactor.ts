@@ -1,9 +1,5 @@
 import { z } from "zod";
 
-const responseFormats = ["code-only", "code-with-comments"] as const;
-const responseFormatsZodEnum = z.enum(responseFormats);
-export type ResponseFormat = z.infer<typeof responseFormatsZodEnum>;
-
 // Not fun that we're maintaining this in two places but it's fine for now
 const languages = [
   "JavaScript",
@@ -50,7 +46,6 @@ export const refactorRequestBodySchema = z.object({
   apiKey: z.string(),
   model: modelsZodEnum,
   language: languagesZodEnum,
-  responseFormat: responseFormatsZodEnum,
   considerations: z.array(z.string()),
   messages: z.array(messageSchema),
   additionalInstructions: z

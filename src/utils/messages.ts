@@ -1,8 +1,5 @@
 import type { Message } from "ai/react";
-import type {
-  ResponseFormat,
-  RefactorRequestBody,
-} from "@/schemas/api/refactor";
+import type { RefactorRequestBody } from "@/schemas/api/refactor";
 import { LanguageName, getLanguageIdentifierFromName } from "./languages";
 
 const listFormatter = new Intl.ListFormat("en", {
@@ -14,7 +11,6 @@ export function buildMessages(body: RefactorRequestBody) {
   const systemMessage = buildSystemMessage(body.language);
   const userMessage = buildUserMessage(
     body.language,
-    body.responseFormat,
     body.considerations,
     body.additionalInstructions,
     body.messages[0]!.content
@@ -37,7 +33,6 @@ function buildSystemMessage(language: LanguageName): MessageWithoutId {
 
 function buildUserMessage(
   language: LanguageName,
-  responseFormat: ResponseFormat,
   considerations: string[],
   additionalInstructions: string,
   code: string
@@ -51,8 +46,6 @@ function buildUserMessage(
     ${code}
 
     Additionally, ${additionalInstructions}
-    
-    In your reply, please include ${responseFormat.replace("-", " ")}.
 
     Your reply should ALWAYS be formatted EXACTLY like the example below. If you need to include an explanation of the refactored code, put it inside of a multiline code comment after the refactored code. Be extremely concise and to the point in your explanation of the refactored code if you include one. DO NOT include an explanation of the original code.
     

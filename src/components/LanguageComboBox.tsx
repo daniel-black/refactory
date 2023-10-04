@@ -28,7 +28,6 @@ export function LanguageComboBox({
   setSelectedLanguage,
 }: LanguageComboBoxProps) {
   const [open, setOpen] = useState(false);
-  const languageDisplayName = getLanguageNameFromIdentifier(selectedLanguage);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

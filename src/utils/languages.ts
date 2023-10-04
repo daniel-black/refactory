@@ -14,7 +14,7 @@ export const languages = [
   { name: "Swift", identifier: "swift" },
   { name: "Ruby", identifier: "ruby" },
   { name: "Kotlin", identifier: "kotlin" },
-  { name: "Scala", identifier: "Scala" },
+  { name: "Scala", identifier: "scala" },
   { name: "Lisp", identifier: "lisp" },
   { name: "Clojure", identifier: "clojure" },
   { name: "Julia", identifier: "julia" },
