@@ -3,10 +3,10 @@ import { z } from "zod";
 // Not fun that we're maintaining this in two places but it's fine for now
 const languages = [
   "JavaScript",
-  "React",
   "TypeScript",
-  "TypeScript React",
   "Python",
+  "JSX",
+  "TSX",
   "Java",
   "C#",
   "C++",
@@ -17,11 +17,6 @@ const languages = [
   "Swift",
   "Ruby",
   "Kotlin",
-  "Scala",
-  "Lisp",
-  "Clojure",
-  "Julia",
-  "Other",
 ] as const;
 const languagesZodEnum = z.enum(languages);
 

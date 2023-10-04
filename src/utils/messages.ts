@@ -22,12 +22,9 @@ export function buildMessages(body: RefactorRequestBody) {
 type MessageWithoutId = Pick<Message, "role" | "content">;
 
 function buildSystemMessage(language: LanguageName): MessageWithoutId {
-  const generic = language === "Other";
   return {
     role: "system",
-    content: `You are an expert ${
-      generic ? "all-around" : language
-    } programmer. You think logically and can do anything.`,
+    content: `You are an expert ${language} programmer. You think logically and can do anything.`,
   };
 }
 

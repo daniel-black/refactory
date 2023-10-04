@@ -17,6 +17,7 @@ export function FormAdditionalInstructionsSection({
         placeholder="Ex: use arrow functions"
         value={additionalInstructions}
         onChange={(e) => setAdditionalInstructions(e.target.value)}
+        className="max-h-[33vh]"
       />
     </div>
   );

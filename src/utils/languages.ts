@@ -1,9 +1,9 @@
 export const languages = [
   { name: "JavaScript", identifier: "javascript" },
-  { name: "React", identifier: "jsx" },
   { name: "TypeScript", identifier: "typescript" },
-  { name: "TypeScript React", identifier: "tsx" },
   { name: "Python", identifier: "python" },
+  { name: "JSX", identifier: "jsx" },
+  { name: "TSX", identifier: "tsx" },
   { name: "Java", identifier: "java" },
   { name: "C#", identifier: "csharp" },
   { name: "C++", identifier: "cpp" },
@@ -14,11 +14,6 @@ export const languages = [
   { name: "Swift", identifier: "swift" },
   { name: "Ruby", identifier: "ruby" },
   { name: "Kotlin", identifier: "kotlin" },
-  { name: "Scala", identifier: "scala" },
-  { name: "Lisp", identifier: "lisp" },
-  { name: "Clojure", identifier: "clojure" },
-  { name: "Julia", identifier: "julia" },
-  { name: "Other", identifier: "other" },
 ] as const;
 
 export type LanguageName = (typeof languages)[number]["name"];
