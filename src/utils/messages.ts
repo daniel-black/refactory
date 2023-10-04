@@ -47,7 +47,7 @@ function buildUserMessage(
 
     Additionally, ${additionalInstructions}
 
-    Your reply should ALWAYS be formatted EXACTLY like the example below. If you need to include an explanation of the refactored code, put it inside of a multiline code comment after the refactored code. Be extremely concise and to the point in your explanation of the refactored code if you include one. DO NOT include an explanation of the original code.
+    Your reply should ALWAYS be formatted EXACTLY like the example below. If you need to include an explanation of the refactored code, put it inside of a multiline code comment after the refactored code. Be extremely concise and to the point in your explanation of the refactored code if you include one. DO NOT include an explanation of the original code. NEVER reply with a markdown code block.
     
     Example reply:
     {your refactored code goes here}

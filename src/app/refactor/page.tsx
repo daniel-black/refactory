@@ -14,12 +14,10 @@ import {
 } from "@/utils/languages";
 import { type Model, ModelSelect } from "@/components/ModelSelect";
 import { EditorSkeleton } from "@/components/EditorSkeleton";
-import { SubmitButton } from "@/components/SubmitButton";
 import { FormLanguageSection } from "@/components/FormLanguageSection";
 import { FormConsiderationsSection } from "@/components/FormConsiderationsSection";
 import { FormAdditionalInstructionsSection } from "@/components/FormAdditionalInstructionsSection";
-import { RetryButton } from "@/components/RetryButton";
-import { StopButton } from "@/components/StopButton";
+import { ActionButton } from "@/components/ActionButton";
 
 export default function RefactorPage() {
   const [language, setLanguage] = useState<LanguageIdentifier>("javascript");
@@ -60,7 +58,7 @@ export default function RefactorPage() {
   }
 
   return (
-    <div className="gap-2 flex flex-row min-h-screen">
+    <div className="gap-2 flex flex-row h-screen w-screen">
       {apiKey ? null : <ApiKeyInputModal setApiKey={setApiKey} />}
       <section className="w-[280px] space-y-2 p-2">
         <form onSubmit={(e) => handleSubmit(e)} className="space-y-4">
@@ -73,19 +71,20 @@ export default function RefactorPage() {
             additionalInstructions={additionalInstructions}
             setAdditionalInstructions={setAdditionalInstructions}
           />
-          {refactoredMessage && !isLoading ? (
-            <RetryButton reload={reload} />
-          ) : (
-            <div className="flex">
-              <SubmitButton isLoading={isLoading} />
-              {isLoading && <StopButton stop={stop} />}
-            </div>
-          )}
+          <ActionButton
+            isLoading={isLoading}
+            hasResponse={!!refactoredMessage}
+            reload={reload}
+            stop={stop}
+          />
         </form>
-        {/* <Button variant={"secondary"} className="w-full" onClick={reset}>
-          Reset
-        </Button>
-        <ModelSelect /> */}
+        {refactoredMessage && !isLoading ? (
+          <Button variant={"secondary"} className="w-full" onClick={reset}>
+            Reset
+          </Button>
+        ) : null}
+
+        {/* <ModelSelect /> */}
       </section>
       <main className="w-full flex flex-col sm:flex-row gap-2">
         <CodePanel>
@@ -93,6 +92,7 @@ export default function RefactorPage() {
           <Editor
             language={language}
             loading={<EditorSkeleton />}
+            value={messages.length > 0 ? messages[0].content : input}
             onChange={(v) => {
               if (v) {
                 setInput(v);
