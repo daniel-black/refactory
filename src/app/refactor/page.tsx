@@ -18,6 +18,8 @@ import { FormLanguageSection } from "@/components/FormLanguageSection";
 import { FormConsiderationsSection } from "@/components/FormConsiderationsSection";
 import { FormAdditionalInstructionsSection } from "@/components/FormAdditionalInstructionsSection";
 import { ActionButton } from "@/components/ActionButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "next-themes";
 
 export default function RefactorPage() {
   const [language, setLanguage] = useState<LanguageIdentifier>("javascript");
@@ -46,7 +48,8 @@ export default function RefactorPage() {
       language: getLanguageNameFromIdentifier(language),
     },
   });
-
+  // use the theme to set the editor themes
+  const { theme } = useTheme();
   const refactoredMessage = messages?.find((m) => m.role === "assistant");
 
   function reset() {
@@ -83,7 +86,7 @@ export default function RefactorPage() {
             Reset
           </Button>
         ) : null}
-
+        <ThemeToggle />
         {/* <ModelSelect /> */}
       </section>
       <main className="w-full flex flex-col sm:flex-row gap-2">
@@ -105,6 +108,7 @@ export default function RefactorPage() {
               tabSize: 2,
               lineNumbersMinChars: 3,
               scrollBeyondLastLine: false,
+              theme: "vs-dark",
             }}
           />
         </CodePanel>
