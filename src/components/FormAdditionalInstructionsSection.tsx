@@ -18,6 +18,7 @@ export function FormAdditionalInstructionsSection({
         value={additionalInstructions}
         onChange={(e) => setAdditionalInstructions(e.target.value)}
         className="max-h-[33vh]"
+        spellCheck={false}
       />
     </div>
   );

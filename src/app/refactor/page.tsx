@@ -12,7 +12,6 @@ import {
   type LanguageIdentifier,
   getLanguageNameFromIdentifier,
 } from "@/utils/languages";
-import { type Model, ModelSelect } from "@/components/ModelSelect";
 import { EditorSkeleton } from "@/components/EditorSkeleton";
 import { FormLanguageSection } from "@/components/FormLanguageSection";
 import { FormConsiderationsSection } from "@/components/FormConsiderationsSection";
@@ -20,6 +19,7 @@ import { FormAdditionalInstructionsSection } from "@/components/FormAdditionalIn
 import { ActionButton } from "@/components/ActionButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
+import { Model, ModelToggle } from "@/components/ModelToggle";
 
 export default function RefactorPage() {
   const [language, setLanguage] = useState<LanguageIdentifier>("javascript");
@@ -49,7 +49,9 @@ export default function RefactorPage() {
     },
   });
   // use the theme to set the editor themes
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const editorTheme = resolvedTheme === "light" ? "light" : "vs-dark";
+
   const refactoredMessage = messages?.find((m) => m.role === "assistant");
 
   function reset() {
@@ -63,31 +65,38 @@ export default function RefactorPage() {
   return (
     <div className="gap-2 flex flex-row h-screen w-screen">
       {apiKey ? null : <ApiKeyInputModal setApiKey={setApiKey} />}
-      <section className="w-[280px] space-y-2 p-2">
-        <form onSubmit={(e) => handleSubmit(e)} className="space-y-4">
-          <FormLanguageSection language={language} setLanguage={setLanguage} />
-          <FormConsiderationsSection
-            considerations={considerations}
-            setConsiderations={setConsiderations}
-          />
-          <FormAdditionalInstructionsSection
-            additionalInstructions={additionalInstructions}
-            setAdditionalInstructions={setAdditionalInstructions}
-          />
-          <ActionButton
-            isLoading={isLoading}
-            hasResponse={!!refactoredMessage}
-            reload={reload}
-            stop={stop}
-          />
-        </form>
-        {refactoredMessage && !isLoading ? (
-          <Button variant={"secondary"} className="w-full" onClick={reset}>
-            Reset
-          </Button>
-        ) : null}
-        <ThemeToggle />
-        {/* <ModelSelect /> */}
+      <section className="w-[280px] space-y-2 p-2 flex flex-col justify-between">
+        <div>
+          <form onSubmit={(e) => handleSubmit(e)} className="space-y-4">
+            <FormLanguageSection
+              language={language}
+              setLanguage={setLanguage}
+            />
+            <FormConsiderationsSection
+              considerations={considerations}
+              setConsiderations={setConsiderations}
+            />
+            <FormAdditionalInstructionsSection
+              additionalInstructions={additionalInstructions}
+              setAdditionalInstructions={setAdditionalInstructions}
+            />
+            <ActionButton
+              isLoading={isLoading}
+              hasResponse={!!refactoredMessage}
+              reload={reload}
+              stop={stop}
+            />
+          </form>
+          {refactoredMessage && !isLoading ? (
+            <Button variant={"secondary"} className="w-full" onClick={reset}>
+              Reset
+            </Button>
+          ) : null}
+        </div>
+        <div className="flex gap-1.5">
+          <ThemeToggle />
+          <ModelToggle />
+        </div>
       </section>
       <main className="w-full flex flex-col sm:flex-row gap-2">
         <CodePanel>
@@ -106,9 +115,13 @@ export default function RefactorPage() {
                 enabled: false,
               },
               tabSize: 2,
+              padding: {
+                top: 10,
+                bottom: 10,
+              },
               lineNumbersMinChars: 3,
               scrollBeyondLastLine: false,
-              theme: "vs-dark",
+              theme: editorTheme,
             }}
           />
         </CodePanel>
@@ -126,8 +139,13 @@ export default function RefactorPage() {
                 enabled: false,
               },
               tabSize: 2,
+              padding: {
+                top: 10,
+                bottom: 10,
+              },
               lineNumbersMinChars: 3,
               scrollBeyondLastLine: false,
+              theme: editorTheme,
             }}
           />
         </CodePanel>
