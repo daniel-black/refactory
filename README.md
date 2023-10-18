@@ -1,17 +1,5 @@
-possible domains:
+Refactory is an app that uses OpenAI's chat API to refactor code.
 
-- userefactory.com ($20)
-- tryrefactory.com ($20)
-- refactoryapp.com ($20)
-- airefactory.com ($20)
-- refactoryai.com ($20)
-- refactorytool.com ($20)
-- writewithrefactory.com ($20)
-- codewithrefactory.com ($20)
-- buildwithrefactory.com ($20)
-- refactorybuild.com ($20)
-- withrefactory.com ($20)
-- coderefactory.app ($50)
-- refactory.run ($20)
-- refactory.codes ($50)
-- refactory.build ($50)
+The user needs to have an OpenAI API key to access the application. The user can enter code, choose the programming language, select some 
+attributes they want the refactored code to have, and optionally add some additional instructions. The app then constructs and prompt and
+requests a response from the OpenAI API.
