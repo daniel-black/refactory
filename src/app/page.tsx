@@ -17,6 +17,9 @@ export default function LandingPage() {
       >
         Get Started →
       </Link>
+      <div className="mt-10 flex justify-center">
+        <img src="/demo.gif" className="rounded-md border shadow" />
+      </div>
     </div>
   );
 }
