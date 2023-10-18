@@ -20,6 +20,7 @@ import { ActionButton } from "@/components/ActionButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
 import { Model, ModelToggle } from "@/components/ModelToggle";
+import { EraserIcon } from "lucide-react";
 
 export default function RefactorPage() {
   const [language, setLanguage] = useState<LanguageIdentifier>("javascript");
@@ -66,7 +67,7 @@ export default function RefactorPage() {
     <div className="gap-2 flex flex-row h-screen w-screen">
       {apiKey ? null : <ApiKeyInputModal setApiKey={setApiKey} />}
       <section className="w-[280px] space-y-2 p-2 flex flex-col justify-between">
-        <div>
+        <div className="space-y-2">
           <form onSubmit={(e) => handleSubmit(e)} className="space-y-4">
             <FormLanguageSection
               language={language}
@@ -88,8 +89,13 @@ export default function RefactorPage() {
             />
           </form>
           {refactoredMessage && !isLoading ? (
-            <Button variant={"secondary"} className="w-full" onClick={reset}>
-              Reset
+            <Button
+              variant={"secondary"}
+              className="w-full flex gap-1.5 "
+              onClick={reset}
+            >
+              <EraserIcon className="h-4 w-4" />
+              <span>Reset</span>
             </Button>
           ) : null}
         </div>
